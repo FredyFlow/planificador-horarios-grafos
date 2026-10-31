@@ -1,0 +1,28 @@
+name: CI - Verificación Formal y Pruebas (pytest)
+
+on:
+  push:
+    branches: [ main, develop, "feature/**" ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test-discrete-core:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Ejecutar suite de pruebas y cobertura (>= 70% requerido por el instructivo)
+        run: |
+          pytest --cov=src --cov-report=term-missing --cov-fail-under=70

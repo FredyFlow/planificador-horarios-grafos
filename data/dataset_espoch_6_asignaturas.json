@@ -1,0 +1,53 @@
+{
+  "description": "Ejemplo mínimo trabajado (6 asignaturas de Ingeniería de Software - ESPOCH)",
+  "courses": [
+    {
+      "id": "v1",
+      "name": "Matemáticas Discretas",
+      "professor": "Mg. Miriam Ávila",
+      "semester": "PAO 3",
+      "room": "Aula 301",
+      "student_groups": ["SW-3A"]
+    },
+    {
+      "id": "v2",
+      "name": "Estructura de Datos",
+      "professor": "Ing. Carlos Pérez",
+      "semester": "PAO 3",
+      "room": "Lab Cómputo 1",
+      "student_groups": ["SW-3A"]
+    },
+    {
+      "id": "v3",
+      "name": "Programación Orientada a Objetos",
+      "professor": "Ing. Carlos Pérez",
+      "semester": "PAO 2",
+      "room": "Lab Cómputo 1",
+      "student_groups": ["SW-2A"]
+    },
+    {
+      "id": "v4",
+      "name": "Bases de Datos I",
+      "professor": "Ing. Elena Torres",
+      "semester": "PAO 3",
+      "room": "Lab Cómputo 2",
+      "student_groups": ["SW-3A"]
+    },
+    {
+      "id": "v5",
+      "name": "Lógica de Programación",
+      "professor": "Mg. Miriam Ávila",
+      "semester": "PAO 1",
+      "room": "Aula 201",
+      "student_groups": ["SW-1A"]
+    },
+    {
+      "id": "v6",
+      "name": "Estadística Aplicada",
+      "professor": "Ing. Elena Torres",
+      "semester": "PAO 2",
+      "room": "Aula 301",
+      "student_groups": ["SW-2A"]
+    }
+  ]
+}

@@ -1,0 +1,551 @@
+% =============================================================================
+% ESCUELA SUPERIOR POLITÉCNICA DE CHIMBORAZO (ESPOCH)
+% FACULTAD DE INFORMÁTICA Y ELECTRÓNICA - CARRERA DE INGENIERÍA DE SOFTWARE
+% ASIGNATURA: MATEMÁTICAS DISCRETAS PARA INGENIERÍA DE SOFTWARE (PAO 3)
+% DOCENTE: MG. MIRIAM ÁVILA
+% ENTREGABLE FASE 3: INVESTIGACIÓN FORMATIVA | AVANCE DE MEDIO CICLO (GRUPO 3)
+% =============================================================================
+\documentclass[12pt,a4paper]{article}
+
+% --- Codificación e idioma ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-tabla]{babel}
+
+% --- Márgenes oficiales (Instructivo Sección 7.1: Sup/Izq 3cm, Inf/Der 2.5cm) ---
+\usepackage[top=3cm, left=3cm, bottom=2.5cm, right=2.5cm]{geometry}
+
+% --- Tipografía (Instructivo Sección 7.1: Arial/Helvetica 12pt, Courier 10pt) ---
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{courier}
+
+% --- Imágenes, Logos y Control estricto de Flotantes ([H] y \FloatBarrier) ---
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[section]{placeins}
+
+% --- Interlineado (1.5 cuerpo, 1.0 en tablas, código y entornos formales) ---
+\usepackage{setspace}
+\onehalfspacing
+
+% --- Espaciado compacto de títulos de sección para cumplir 4-6 páginas de cuerpo ---
+\makeatletter
+\renewcommand\section{\@startsection {section}{1}{\z@}%
+                                   {-1.8ex \@plus -0.5ex \@minus -.2ex}%
+                                   {0.8ex \@plus.1ex}%
+                                   {\normalfont\large\bfseries}}
+\makeatother
+
+% --- Paquetes matemáticos recomendados (Instructivo Sección 9.4) ---
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+
+% --- Diagramas de grafos y pseudocódigo (Instructivo Sección 9.4) ---
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes.geometric, arrows.meta}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% --- Tablas, colores, cuadros diferenciados y código ---
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{enumitem}
+\setlist{nosep, topsep=2pt}
+\usepackage[hyphens]{url}
+\usepackage{hyperref}
+\usepackage[font=footnotesize,skip=4pt]{caption}
+
+\definecolor{espochred}{RGB}{153, 0, 0}
+\definecolor{fieblue}{RGB}{11, 70, 140}
+\definecolor{tableheader}{RGB}{217, 225, 242}
+\definecolor{codebg}{RGB}{245, 245, 245}
+\definecolor{framebg}{RGB}{248, 250, 252}
+\definecolor{frameborder}{RGB}{51, 65, 85}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=frameborder,
+    urlcolor=blue,
+    citecolor=frameborder
+}
+\urlstyle{same}
+
+% Columnas con alineación izquierda y ajuste automático de línea
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+% --- Entornos formales visualmente diferenciados y compactos (Instructivo 7.1) ---
+\mdfdefinestyle{mathbox}{
+    linecolor=frameborder,
+    outerlinewidth=0.9pt,
+    roundcorner=3pt,
+    innertopmargin=5pt,
+    innerbottommargin=5pt,
+    innerrightmargin=8pt,
+    innerleftmargin=8pt,
+    skipabove=5pt,
+    skipbelow=5pt,
+    backgroundcolor=framebg
+}
+
+\theoremstyle{definition}
+\newmdtheoremenv[style=mathbox]{definicion}{Definición}[section]
+\newmdtheoremenv[style=mathbox]{proposicion}{Proposición}[section]
+
+\newenvironment{demostracion}[1][Demostración]{%
+    \begin{singlespace}\small\noindent\textbf{\textit{#1.}}
+}{%
+    \hfill$\blacksquare$\end{singlespace}\vspace{0.25em}
+}
+
+\begin{document}
+
+% =============================================================================
+% PORTADA OFICIAL EN UNA SOLA PÁGINA CON LOGOS ESPOCH Y FIE
+% =============================================================================
+\begin{titlepage}
+    \centering
+    \vspace*{-0.5cm}
+    \noindent
+    \begin{minipage}[c]{0.30\textwidth}
+        \raggedright
+        \IfFileExists{logo_espoch.png}{%
+            \includegraphics[height=2.2cm]{logo_espoch.png}%
+        }{%
+            \fbox{\parbox[c][2.0cm][c]{2.0cm}{\centering\scriptsize Subir\\ \texttt{logo\_espoch.png}}}%
+        }
+    \end{minipage}%
+    \hfill
+    \begin{minipage}[c]{0.38\textwidth}
+        \raggedleft
+        \IfFileExists{logo_fie.png}{%
+            \includegraphics[height=1.8cm]{logo_fie.png}%
+        }{%
+            \fbox{\parbox[c][1.8cm][c]{3.0cm}{\centering\scriptsize Subir\\ \texttt{logo\_fie.png}}}%
+        }
+    \end{minipage}
+
+    \vspace{0.25cm}
+    {\Large \textbf{ESCUELA SUPERIOR POLITÉCNICA DE CHIMBORAZO}}\\[0.12cm]
+    {\large \textbf{FACULTAD DE INFORMÁTICA Y ELECTRÓNICA}}\\[0.12cm]
+    {\large \textbf{CARRERA DE INGENIERÍA DE SOFTWARE}}\\[0.12cm]
+    {\normalsize MATEMÁTICAS DISCRETAS PARA INGENIERÍA DE SOFTWARE (PAO 3)}\\[0.35cm]
+
+    {\large \textbf{``PLANIFICADOR DE HORARIOS Y ASIGNACIÓN DE RECURSOS SIN CONFLICTOS MEDIANTE COLORACIÓN DE GRAFOS''}}\\[0.35cm]
+
+    {\normalsize \textbf{INVESTIGACIÓN FORMATIVA (FASE 3) \enspace|\enspace AVANCE DE MEDIO CICLO}}\\[0.12cm]
+    {\normalsize \textbf{GRUPO 3}}\\[0.35cm]
+
+    \begin{singlespace}
+    \footnotesize
+    \textbf{INTEGRANTES, ROLES Y CORREOS INSTITUCIONALES}\\[0.18cm]
+    \setlength{\tabcolsep}{5pt}
+    \renewcommand{\arraystretch}{1.28}
+    \begin{tabularx}{\textwidth}{|L{4.8cm}|L{4.3cm}|Y|}
+        \hline
+        \rowcolor{tableheader}
+        \textbf{Integrante} & \textbf{Rol en el Equipo} & \textbf{Correo Institucional} \\ \hline
+        Fredy Jamphier Cárdenas Peñafiel & Líder / Product Owner & \nolinkurl{fredy.cardenas@espoch.edu.ec} \\ \hline
+        Giovanni Isarel Gavilanes Gavilanes & Matemático / Modelador Formal & \nolinkurl{giovanni.gavilanes@espoch.edu.ec} \\ \hline
+        Danixa Juleydi Rodas Riofrío & QA Engineer / Verificador & \nolinkurl{danixa.rodas@espoch.edu.ec} \\ \hline
+        Joseph Isaías Cuñas Guilcapi & Desarrollador de Algoritmos & \nolinkurl{darwin.cunias@espoch.edu.ec} \\ \hline
+        William Mauricio Tigasi Toaquiza & Documentador / DevOps & \nolinkurl{willia.tigasi@espoch.edu.ec} \\ \hline
+        Geomayra Alexandra Vilca Vilca & Desarrollador Full Stack / UI & \nolinkurl{geomayra.vilca@espoch.edu.ec} \\ \hline
+    \end{tabularx}
+    \end{singlespace}
+
+    \vspace{0.5cm}
+    \begin{singlespace}
+    {\small \textbf{DOCENTE:} Mg. Miriam Ávila}\\[0.15cm]
+    {\small \textbf{REPOSITORIO GIT:} \url{https://github.com/FredyFlow/planificador-horarios-grafos}}\\[0.15cm]
+    {\small \textbf{PERÍODO ACADÉMICO:} SEPTIEMBRE 2026 -- FEBRERO 2027}\\[0.12cm]
+    {\small \textbf{OCTUBRE DE 2026}}
+    \end{singlespace}
+\end{titlepage}
+
+% =============================================================================
+% 1. INTRODUCCIÓN, PROBLEMA, OBJETIVOS Y RELACIÓN CON SOFTWARE
+% =============================================================================
+\section{Planteamiento del Problema, Objetivos y Relación con Software}
+
+\textbf{Resumen e Introducción:} En la gestión académica universitaria, las asignaturas deben distribuirse entre un número finito de franjas horarias y recursos físicos limitados. La Teoría de Grafos permite representar incompatibilidades binarias y estudiar su asignación libre de colisiones mediante la \textbf{coloración de vértices} (Bondy \& Murty, 2008; Diestel, 2017; West, 2001). En la literatura de Ingeniería de Software e Investigación de Operaciones sobre el \textit{University Course Timetabling Problem} (UCTP), este enfoque transforma reglas operativas dispersas en un modelo combinatorio verificable (Carter et al., 1996; Schaerf, 1999; Burke \& Petrovic, 2002; Lewis, 2021).
+
+\textbf{Problema y Justificación:} En la Carrera de Ingeniería de Software (FIE--ESPOCH), cuya malla curricular abarca 8 niveles PAO con entre 5 y 6 asignaturas por nivel (aproximadamente 45 cursos por período académico que comparten una planta docente y laboratorios de cómputo limitados), dos asignaturas que comparten estudiantes de un mismo nivel de paralelo único (como PAO 3), el mismo docente titular o un mismo laboratorio exclusivo no pueden dictarse simultáneamente. Gestionar estas restricciones de forma manual provoca cruces de horario, reprogramaciones al inicio del semestre y subutilización de aulas (Lewis, 2008; Pinedo, 2016).
+\textbf{Pregunta de investigación:} \textit{¿Cómo representar formalmente las incompatibilidades de recursos y participantes mediante un grafo simple no dirigido $G = (V, E)$ y aplicar algoritmos propios de coloración de vértices (Welsh-Powell y DSatur) para construir una asignación horaria libre de conflictos que minimice las franjas utilizadas?}
+
+\textbf{Objetivo General:} Diseñar y desarrollar un prototipo de software que modele los conflictos de simultaneidad académica como un grafo simple no dirigido $G = (V, E)$ y aplique los algoritmos de coloración de Welsh-Powell y DSatur implementados desde cero en Python para generar horarios libres de colisiones.
+
+\textbf{Objetivos Específicos:}
+\begin{enumerate}
+    \item Formalizar las restricciones de simultaneidad como vértices $V$ y aristas $E$ mediante lógica de predicados y relaciones binarias, construyendo la lista y la matriz de adyacencia $A_G$.
+    \item Demostrar formalmente tres proposiciones del modelo: la bien-definición del grafo simple e independencia de cada clase $C_i$, la cota inferior por clique de nivel PAO $\chi(G) \ge \omega(G) \ge |V_{\text{pao}}(s)|$ y la cota superior voraz $\chi(G) \le \Delta(G) + 1$.
+    \item Implementar y comparar desde cero en Python 3 los algoritmos de \textbf{Welsh-Powell} (Fase 3) y \textbf{DSatur} (Sprint 2), justificando sus estructuras de datos y complejidad $O(|V|^2)$.
+    \item Verificar computacionalmente con pruebas automatizadas que cada clase $C_i$ sea independiente y que toda arista $\{u, v\} \in E$ cumpla $c(u) \neq c(v)$.
+    \item Construir una interfaz web modular (Sprint 3) que importe restricciones CSV/JSON y visualice la matriz $A_G$, el grafo coloreado y el horario resultante.
+\end{enumerate}
+
+% =============================================================================
+% 2. MARCO TEÓRICO: FORMALIZACIÓN MATEMÁTICA PRELIMINAR
+% =============================================================================
+\section{Marco Teórico y Formalización Matemática Preliminar}
+
+La Tabla \ref{tab:notacion} sintetiza los objetos del modelo matemático discreto siguiendo la notación estándar de la disciplina (Rosen, 2019; Bondy \& Murty, 2008; Diestel, 2017).
+
+\begin{singlespace}
+\begin{table}[H]
+\centering
+\caption{Notación formal del modelo de planificación por coloración de grafos}
+\label{tab:notacion}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\textwidth}{|c|L{3.5cm}|Y|}
+\hline
+\rowcolor{tableheader}
+\textbf{Símbolo} & \textbf{Objeto Matemático} & \textbf{Significado en el Problema de Planificación} \\ \hline
+$V,\ E$ & Vértices y aristas & Conjunto de $n = |V|$ asignaturas y $m = |E|$ pares incompatibles $\{u, v\}$. \\ \hline
+$A_G$ & Matriz de adyacencia & Matriz booleana simétrica $n \times n$ donde $a_{ij} = 1 \iff \{v_i, v_j\} \in E$ y $a_{ii} = 0$. \\ \hline
+$\deg_G(v), \Delta(G)$ & Grado y grado máximo & Número de choques directos de $v$, y máximo grado en $G$: $\Delta(G) = \max_{v \in V} \deg_G(v)$. \\ \hline
+$U,\ V \setminus U$ & Conjuntos de estado & Subconjunto $U \subseteq V$ de vértices \textit{no coloreados} y $V \setminus U$ de vértices \textit{ya coloreados}. \\ \hline
+$d_{\text{sat}}(v)$ & Grado de saturación & Colores distintos en la vecindad ya coloreada de $v$: $|\{c(u) \mid u \in N_G(v) \setminus U\}|$ (Brélaz, 1979). \\ \hline
+$c(v),\ C_i$ & Coloración y clase & Franja $c(v) \in \{1, \dots, k\}$ asignada a $v$, y clase independiente $C_i = \{v \in V \mid c(v) = i\}$. \\ \hline
+$\omega(G), \chi(G)$ & Clique y n.º cromático & Tamaño del mayor subgrafo completo $K_m \subseteq G$, y mínimo número de franjas válidas. \\ \hline
+\end{tabularx}
+\end{table}
+
+\begin{definicion}[Grafo Simple de Conflictos y Predicado Lógico $P(u, v)$]
+Sea $V = \{v_1, \dots, v_n\}$ el conjunto finito de asignaturas, cada una caracterizada por la tupla $(id, doc, pao, aula, grp)$, asumiendo explícitamente un único paralelo por nivel curricular $pao(v)$ (acorde a la oferta de PAO 3 en la carrera) y reservando $grp(v)$ para subgrupos específicos o electivas compartidas. Definimos el \textbf{predicado lógico de conflicto} $P(u, v)$ sobre $V \times V$ como:
+\begin{align*}
+P(u, v) \iff (u \neq v) \land \Big[ &\big(doc(u) = doc(v)\big) \lor \big(pao(u) = pao(v)\big) \\
+&\lor \big(aula(u) = aula(v)\big) \lor \big(grp(u) \cap grp(v) \neq \emptyset\big) \Big]
+\end{align*}
+La relación binaria $R = \{(u, v) \in V \times V \mid P(u, v)\}$ define el conjunto de aristas no dirigidas $E = \{\{u, v\} \subseteq V \mid P(u, v)\}$ del grafo simple $G = (V, E)$, donde la vecindad de $v$ es $N_G(v) = \{u \in V \mid \{u, v\} \in E\}$ y su grado es $\deg_G(v) = |N_G(v)| = \sum_{j=1}^n a_{ij}$.
+\end{definicion}
+
+\begin{definicion}[Conjunto Independiente, Clique y $k$-Coloración Propia]
+En un grafo simple $G = (V, E)$: (1) $I \subseteq V$ es un \textbf{conjunto independiente} si $\forall u, v \in I, \{u, v\} \notin E$; (2) $Q \subseteq V$ es un \textbf{clique} si $\forall u \neq v \in Q, \{u, v\} \in E$, con número de clique $\omega(G) = \max\{|Q|\}$; y (3) una función $c: V \to \{1, \dots, k\}$ es una \textbf{$k$-coloración propia} si $\forall \{u, v\} \in E, c(u) \neq c(v)$. El \textbf{número cromático} $\chi(G)$ es el menor entero $k \ge 1$ para el cual existe una $k$-coloración propia (Jensen \& Toft, 1995; Lewis, 2021).
+\end{definicion}
+\end{singlespace}
+
+% =============================================================================
+% 3. PROPOSICIONES PROPIAS DEL MODELO Y DEMOSTRACIONES
+% =============================================================================
+\section{Proposiciones Matemáticas y Demostraciones}
+
+\begin{singlespace}
+\begin{proposicion}[Bien-definición del Grafo Simple de Horarios e Independencia de Franjas]
+La relación de incompatibilidad $R = \{(u, v) \in V \times V \mid P(u, v)\}$ del modelo es irreflexiva y simétrica, por lo que $G = (V, E)$ es un grafo simple bien definido sin lazos; además, una función sobreyectiva $c: V \to \{1, \dots, k\}$ es una $k$-coloración propia si y solo si las clases de color $C_i = c^{-1}(\{i\})$ forman una partición de $V$ en conjuntos independientes libres de colisiones de docente, PAO, aula y grupo.
+\end{proposicion}
+\end{singlespace}
+
+\begin{demostracion}[Demostración (Estrategia: Prueba directa de propiedades relacionales y reducción al absurdo)]
+\textbf{Paso 1 (Irreflexividad y simetría de $R$):} Para todo $v \in V$, la proposición $(v \neq v)$ es falsa, luego $P(v, v)$ es falso y $(v, v) \notin R$ (irreflexividad, garantizando $a_{ii} = 0$). Si $(u, v) \in R$, por simetría de la igualdad ($=$), de la desigualdad ($\neq$) y conmutatividad de la intersección ($grp(u) \cap grp(v) = grp(v) \cap grp(u)$), se cumple $P(v, u)$, luego $(v, u) \in R$ (simetría, garantizando $a_{ij} = a_{ji}$).
+\textbf{Paso 2 (Partición e independencia):} Por ser $c$ función sobreyectiva, las preimágenes $C_i$ son no vacías, disjuntas dos a dos y $\bigcup_{i=1}^k C_i = V$. Supongamos por reducción al absurdo que $c$ es propia pero algún $C_i$ contiene dos cursos $u, v \in C_i$ con conflicto $P(u, v)$. Entonces $\{u, v\} \in E$ y $c(u) = i = c(v)$, contradiciendo que $c(u) \neq c(v)$ en toda arista. Recíprocamente, si cada $C_i$ es independiente, ningún par $\{u, v\} \in E$ comparte clase, luego $c(u) \neq c(v)$.
+\end{demostracion}
+
+\begin{singlespace}
+\begin{proposicion}[Cota Inferior por Clique de Nivel Curricular PAO]
+Sea $V_{\text{pao}}(s) = \{v \in V \mid pao(v) = s\}$ el subconjunto de asignaturas de un mismo nivel curricular de paralelo único $s$. Entonces $V_{\text{pao}}(s)$ induce un subgrafo completo (clique) $K_{|V_{\text{pao}}(s)|}$ en $G$, y el número cromático satisface la cota inferior:
+\[
+\chi(G) \ge \omega(G) \ge \max_{s} |V_{\text{pao}}(s)|
+\]
+\end{proposicion}
+\end{singlespace}
+
+\begin{demostracion}[Demostración (Estrategia: Construcción directa de clique y Principio del Palomar)]
+\textbf{Paso 1:} Sean $u, v \in V_{\text{pao}}(s)$ dos asignaturas distintas ($u \neq v$). Por definición del subconjunto, $pao(u) = s = pao(v)$, lo cual hace verdadera la disyunción en el predicado $P(u, v)$ (Definición 2.1). En consecuencia, $\{u, v\} \in E$ para todo par de cursos distintos de $V_{\text{pao}}(s)$, formando un clique de cardinalidad $|V_{\text{pao}}(s)| \le \omega(G)$.
+\textbf{Paso 2:} Por el Principio del Palomar, si se intentara colorear un clique $Q$ de tamaño $\omega(G)$ con $k < \omega(G)$ colores, al menos dos vértices adyacentes $u, v \in Q$ recibirían el mismo color $c(u) = c(v)$, lo que es imposible. Por tanto, $\chi(G) \ge \omega(G) \ge \max_s |V_{\text{pao}}(s)|$.
+\end{demostracion}
+
+\begin{singlespace}
+\begin{proposicion}[Corrección de \texttt{WelshPowellColoring.solve} y Cota $\chi(G) \le k \le \Delta(G) + 1$]
+Para todo grafo simple finito $G = (V, E)$, el procedimiento voraz por clases implementado en \texttt{WelshPowellColoring.solve} (Algoritmo \ref{alg:welsh_dsatur}) termina produciendo una $k$-coloración propia válida que satisface $\chi(G) \le k \le \Delta(G) + 1$.
+\end{proposicion}
+\end{singlespace}
+
+\begin{demostracion}[Demostración (Estrategia: Invariante de independencia por clase y conteo de vecinos en clases previas)]
+\textbf{Paso 1 (Terminación e independencia de cada clase $C_j$):} En cada iteración del bucle \texttt{while}, el primer vértice disponible en $L$ se asigna a la nueva clase $C_j$, reduciendo $|U|$ en al menos $1$; al ser $V$ finito, el algoritmo termina en $k \le |V|$ iteraciones cubriendo todo $V$. Además, un vértice $v$ solo se incorpora a $C_j$ si se cumple la guarda $N_G(v) \cap C_j = \emptyset$ (\texttt{not has\_conflict\_in\_class}). Por consiguiente, ningún par de vértices en $C_j$ es adyacente, cada $C_j$ es un conjunto independiente y la función $c$ resultante es una $k$-coloración propia.
+\textbf{Paso 2 (Demostración de la cota $k \le \Delta(G) + 1$):} Sea $v \in C_k$ un vértice que recibió el último color $k$. Como en las iteraciones previas $1, 2, \dots, k-1$ el vértice $v$ fue examinado y no pudo ingresar a ninguna de las clases $C_1, C_2, \dots, C_{k-1}$, la guarda $N_G(v) \cap C_i = \emptyset$ debió resultar falsa para todo $i \in \{1, \dots, k-1\}$. Luego, $v$ posee al menos un vecino $u_i \in N_G(v) \cap C_i$ en cada una de las $k - 1$ clases anteriores. Como las clases $C_1, \dots, C_{k-1}$ son mutuamente disjuntas, los vértices $u_1, \dots, u_{k-1}$ son distintos entre sí, de donde se sigue que $\deg_G(v) \ge k - 1$, y por tanto:
+\[
+k \le \deg_G(v) + 1 \le \Delta(G) + 1 \implies \chi(G) \le k \le \Delta(G) + 1
+\]
+(Welsh \& Powell, 1967; Diestel, 2017).
+\end{demostracion}
+
+% =============================================================================
+% 4. CORRESPONDENCIA FORMALISMO <-> SOFTWARE
+% =============================================================================
+\section{Correspondencia entre el Formalismo Matemático y el Software}
+
+La Tabla \ref{tab:correspondencia} vincula cada objeto matemático con su representación en el repositorio Git, distinguiendo con precisión lo implementado en el prototipo de Fase 3 de las extensiones planificadas para el Sprint 2.
+
+\begin{singlespace}
+\begin{table}[H]
+\centering
+\caption{Tabla de correspondencias entre objetos matemáticos discretos y elementos del software}
+\label{tab:correspondencia}
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.22}
+\begin{tabularx}{\textwidth}{|L{2.2cm}|L{3.1cm}|L{3.8cm}|Y|}
+\hline
+\rowcolor{tableheader}
+\textbf{Objeto Matemático} & \textbf{Notación Formal} & \textbf{Elemento en el Software (Python)} & \textbf{Verificación de Fidelidad y Estado} \\ \hline
+1. Vértice (Actividad) & $v_i \in V$ con tupla $(id, doc, pao, aula, grp)$ & Dataclass \texttt{CourseEvent} y \texttt{add\_vertex()} (\texttt{graph.py}) & \textbf{[Implementado Fase 3]} Inmutabilidad (\texttt{frozen=True}) y error \texttt{ValueError} ante IDs duplicados en \texttt{test\_graph.py}. \\ \hline
+2. Predicado de conflicto & $P(u, v) \iff (u \neq v)$ $\land\ (p_{\text{doc}} \lor p_{\text{pao}}$ $\lor\ p_{\text{aula}} \lor p_{\text{grp}})$ & Función \texttt{evaluate\_conflict\_} \texttt{predicate(u, v)} (\texttt{course.py}) & \textbf{[Implementado Fase 3]} Test \texttt{test\_predicate\_properties} verifica irreflexividad $P(u,u)=\text{False}$ y simetría $P(u,v)=P(v,u)$. \\ \hline
+3. Grafo simple y Vecindad & $G = (V, E)$ y vecindad $N_G(v) = \{u \in V : \{u,v\} \in E\}$ & Clase \texttt{ConflictGraph} y mapa \texttt{\_adj\_list} (\texttt{graph.py}) & \textbf{[Implementado Fase 3]} Excepción \texttt{ValueError} ante lazos ($u=v$) e inserción simétrica verificada en \texttt{test\_invariants}. \\ \hline
+4. Matriz $A_G$ y Grados & $A_G = [a_{ij}]_{n \times n}$, grados $\deg_G(v)$ y $\Delta(G)$ & Métodos \texttt{adjacency\_matrix()}, \texttt{degree\_sequence()}, \texttt{max\_degree()} & \textbf{[Implementado Fase 3]} Test de diagonal nula ($a_{ii}=0$), simetría ($a_{ij}=a_{ji}$) y Lema $\sum \deg(v) = 2|E|$. \\ \hline
+5. Grado de Saturación & $d_{\text{sat}}(v) = |\{c(u) \mid$ $u \in N_G(v) \setminus U\}|$ & Atributo \texttt{neighbor\_colors} en \texttt{ColoringStep} y \texttt{DSaturColoring} & \textbf{[Parcial Fase 3 / Sprint 2]} Registro en \texttt{ColoringStep} activo; método \texttt{solve()} de \texttt{DSaturColoring} planificado en Sprint 2. \\ \hline
+6. Coloración y Clases $C_i$ & $c: V \to \{1,\dots,k\}$ y clases $\mathcal{P} = \{C_1, \dots, C_k\}$ & Método \texttt{solve()} de \texttt{WelshPowellColoring} y \texttt{ColoringResult} & \textbf{[Implementado Fase 3]} \texttt{verify\_coloring()} (\texttt{verifier.py}) comprueba $\forall \{u,v\} \in E, c(u) \neq c(v)$ sobre las 6 asignaturas. \\ \hline
+7. Cotas de $\chi(G)$ & $\omega(G) \le \chi(G) \le k$ con $k \le \Delta(G) + 1$ & Clase \texttt{FormalVerification}\newline\texttt{Report} (\texttt{verifier.py}) y clique $\omega(G)$ & \textbf{[Cota sup. Fase 3 / Inf. Sprint 2]} Test verifica $k \le \Delta(G)+1$; búsqueda de clique $\omega(G)$ planificada en Sprint 2. \\ \hline
+\end{tabularx}
+\end{table}
+\end{singlespace}
+
+% =============================================================================
+% 5. EJEMPLO MÍNIMO TRABAJADO Y SOLUCIÓN MATEMÁTICA PASO A PASO
+% =============================================================================
+\section{Ejemplo Mínimo Trabajado y Solución Matemática}
+
+Se modela una instancia de $n = 6$ asignaturas de Ingeniería de Software de la ESPOCH: $V = \{v_1, v_2, v_3, v_4, v_5, v_6\}$ (Tabla \ref{tab:instancia}), reproducible exactamente mediante el test \texttt{test\_worked\_example\_wp}.
+
+\begin{singlespace}
+\begin{table}[H]
+\centering
+\caption{Instancia de 6 asignaturas, matriz de adyacencia $A_G$, grados y franja asignada}
+\label{tab:instancia}
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\textwidth}{|c|Y|c|c|c|c|c|c|c|c|}
+\hline
+\rowcolor{tableheader}
+\textbf{$V$} & \textbf{Asignatura (Nivel / Docente / Aula)} & \multicolumn{6}{c|}{\textbf{Matriz $A_G$}} & $\deg_G(v)$ & \textbf{Franja $c(v)$} \\ \cline{3-8}
+\rowcolor{tableheader}
+ &  & $v_1$ & $v_2$ & $v_3$ & $v_4$ & $v_5$ & $v_6$ &  &  \\ \hline
+$v_1$ & Mat. Discretas (PAO 3, Mg. M. Ávila, Aula 301) & 0 & 1 & 0 & 1 & 1 & 1 & \textbf{4} & \textbf{Franja 1 ($C_1$)} \\ \hline
+$v_2$ & Estructura de Datos (PAO 3, Ing. C. Pérez, Lab 1) & 1 & 0 & 1 & 1 & 0 & 0 & \textbf{3} & \textbf{Franja 2 ($C_2$)} \\ \hline
+$v_3$ & POO (PAO 2, Ing. C. Pérez, Lab 1) & 0 & 1 & 0 & 0 & 0 & 1 & \textbf{2} & \textbf{Franja 1 ($C_1$)} \\ \hline
+$v_4$ & Bases de Datos I (PAO 3, Ing. E. Torres, Lab 2) & 1 & 1 & 0 & 0 & 0 & 1 & \textbf{3} & \textbf{Franja 3 ($C_3$)} \\ \hline
+$v_5$ & Lógica de Prog. (PAO 1, Mg. M. Ávila, Aula 201) & 1 & 0 & 0 & 0 & 0 & 0 & \textbf{1} & \textbf{Franja 2 ($C_2$)} \\ \hline
+$v_6$ & Estadística Aplicada (PAO 2, Ing. E. Torres, Aula 301) & 1 & 0 & 1 & 1 & 0 & 0 & \textbf{3} & \textbf{Franja 2 ($C_2$)} \\ \hline
+\end{tabularx}
+\end{table}
+\end{singlespace}
+
+\begin{enumerate}
+    \item \textbf{Aristas e invariantes:} Evaluando $P(u, v)$ se obtienen $|E| = 8$ aristas: $\{v_1, v_2\}$, $\{v_1, v_4\}$, $\{v_1, v_5\}$, $\{v_1, v_6\}$, $\{v_2, v_3\}$, $\{v_2, v_4\}$, $\{v_3, v_6\}$ y $\{v_4, v_6\}$. Se cumple $\sum_{i=1}^6 \deg_G(v_i) = 4+3+2+3+1+3 = 16 = 2|E|$ y $\Delta(G) = 4 \implies \chi(G) \le 5$ (Proposición 3.3). Como $V_{\text{pao}}(\text{PAO 3}) = \{v_1, v_2, v_4\}$ tiene 3 cursos del mismo nivel, por la Proposición 3.2 forma un clique $K_3$ y $\chi(G) \ge \omega(G) \ge 3$.
+    \item \textbf{Traza de Welsh-Powell:} Orden decreciente de grados $L = (v_1, v_2, v_4, v_6, v_3, v_5)$. \textit{Franja 1:} $c(v_1)=1$ y $c(v_3)=1$ (no adyacente a $v_1$) $\implies C_1 = \{v_1, v_3\}$. \textit{Franja 2:} primer no coloreado $v_2 \to c(v_2)=2$, seguido de $v_6 \notin N_G(v_2)$ y $v_5 \notin N_G(v_2) \cup N_G(v_6) \implies C_2 = \{v_2, v_6, v_5\}$. \textit{Franja 3:} último vértice $v_4 \to c(v_4)=3 \implies C_3 = \{v_4\}$.
+    \item \textbf{Traza de DSatur y Optimalidad:} Inicia en $v_1 \to 1$ ($\deg=4, d_{\text{sat}}=0$); luego $v_2 \to 2$ ($d_{\text{sat}}=1, \deg=3$); en el paso 3, $v_4$ es el único con $d_{\text{sat}}(v_4) = 2$ (vecino de $v_1, v_2$) y recibe color $3$; en el paso 4, $v_6$ alcanza $d_{\text{sat}}(v_6) = 2$ (vecino de $v_1, v_4$) y recibe el menor disponible $2$; por último $v_3 \to 1$ y $v_5 \to 2$. Al emplear $k = 3$ colores e igualar la cota inferior $\omega(G) = 3$, se demuestra que $\chi(G) = 3$ (Figura \ref{fig:grafo_y_arq}a).
+\end{enumerate}
+
+\begin{figure}[H]
+\centering
+\begin{minipage}[c]{0.44\textwidth}
+\centering
+\begin{tikzpicture}[
+    scale=0.78,
+    every node/.style={circle, draw=black, thick, minimum size=0.92cm, font=\scriptsize\bfseries},
+    edge/.style={thick, draw=gray!80!black}
+]
+    \node[fill=cyan!40] (v1) at (90:1.9cm) {$v_1^{(C_1)}$};
+    \node[fill=orange!50] (v2) at (30:1.9cm) {$v_2^{(C_2)}$};
+    \node[fill=cyan!40] (v3) at (-30:1.9cm) {$v_3^{(C_1)}$};
+    \node[fill=green!45] (v4) at (-90:1.9cm) {$v_4^{(C_3)}$};
+    \node[fill=orange!50] (v5) at (-150:1.9cm) {$v_5^{(C_2)}$};
+    \node[fill=orange!50] (v6) at (150:1.9cm) {$v_6^{(C_2)}$};
+    \draw[edge] (v1) -- (v2); \draw[edge] (v1) -- (v4);
+    \draw[edge] (v1) -- (v5); \draw[edge] (v1) -- (v6);
+    \draw[edge] (v2) -- (v3); \draw[edge] (v2) -- (v4);
+    \draw[edge] (v3) -- (v6); \draw[edge] (v4) -- (v6);
+\end{tikzpicture}
+\caption*{(a) Grafo coloreado ($\chi(G)=3$).}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.54\textwidth}
+\centering
+\begin{tikzpicture}[
+    node distance=0.22cm,
+    box/.style={rectangle, rounded corners=3pt, draw=frameborder, thick, fill=framebg, text width=2.4cm, minimum height=0.68cm, align=center, font=\scriptsize\bfseries},
+    arrow/.style={-{Stealth[scale=0.85]}, thick, draw=frameborder}
+]
+    \node[box] (n1) {1. CSV / JSON};
+    \node[box, right=0.35cm of n1] (n2) {2. Grafo $G=(V,E)$};
+    \node[box, below=0.35cm of n2] (n3) {3. Welsh-Powell / DSatur};
+    \node[box, left=0.35cm of n3] (n4) {4. Verificador y Agenda};
+    \draw[arrow] (n1) -- (n2);
+    \draw[arrow] (n2) -- (n3);
+    \draw[arrow] (n3) -- (n4);
+\end{tikzpicture}
+\caption*{(b) Flujo modular del sistema.}
+\end{minipage}
+\caption{Representación del grafo coloreado $G=(V,E)$ del ejemplo trabajado y flujo arquitectónico del planificador.}
+\label{fig:grafo_y_arq}
+\end{figure}
+
+% =============================================================================
+% 6. DISEÑO ALGORÍTMICO, ARQUITECTURA, COMPLEJIDAD Y VIABILIDAD
+% =============================================================================
+\section{Diseño Algorítmico, Complejidad y Limitaciones}
+
+El grafo $G = (V, E)$ se implementa mediante listas de adyacencia con conjuntos hash (\texttt{Dict[str, Set[str]]}, consulta de adyacencia en $O(1)$ promedio) y matriz $A_G$ (Algoritmo \ref{alg:welsh_dsatur}).
+
+\begin{singlespace}
+\begin{algorithm}[H]
+\caption{Procedimientos Voraces de Coloración: Welsh-Powell y DSatur}
+\label{alg:welsh_dsatur}
+\scriptsize
+\begin{algorithmic}[1]
+\Require Grafo simple no dirigido $G = (V, E)$ con grados $\deg_G(v)$
+\Ensure Asignación propia $c: V \to \{1, \dots, k\}$ y clases independientes $\{C_1, \dots, C_k\}$
+\Function{WelshPowell}{$G$}
+    \State Ordenar $V$ en secuencia $L = (v_{\pi(1)}, \dots, v_{\pi(n)})$ tal que $\deg_G(v_{\pi(1)}) \ge \dots \ge \deg_G(v_{\pi(n)})$
+    \State $k \gets 0$; \quad $U \gets V$ \Comment{$U$: subconjunto de vértices aún no coloreados}
+    \While{$U \neq \emptyset$}
+        \State $k \gets k + 1$; \quad $C_k \gets \emptyset$
+        \ForAll{$v \in L$ (en orden) tal que $v \in U$}
+            \If{$N_G(v) \cap C_k = \emptyset$} \State $c[v] \gets k$; \quad $C_k \gets C_k \cup \{v\}$; \quad $U \gets U \setminus \{v\}$ \EndIf
+        \EndFor
+    \EndWhile
+    \State \Return $(c, \{C_1, \dots, C_k\})$
+\EndFunction
+\Function{DSatur}{$G$}
+    \State $U \gets V$; \quad $S_{\text{vec}}[v] \gets \emptyset\ \forall v \in V$ \Comment{$S_{\text{vec}}[v] = \{c(u) \mid u \in N_G(v) \setminus U\}$}
+    \For{$\text{paso} \gets 1$ \textbf{to} $|V|$}
+        \State Seleccionar $v^* \in U$ que maximice $(d_{\text{sat}}(v) = |S_{\text{vec}}[v]|,\ \deg_G(v))$
+        \State $k^* \gets \min \{k \in \mathbb{Z}^+ \mid k \notin S_{\text{vec}}[v^*]\}$; \quad $c[v^*] \gets k^*$; \quad $U \gets U \setminus \{v^*\}$
+        \ForAll{$u \in N_G(v^*) \cap U$} \State $S_{\text{vec}}[u] \gets S_{\text{vec}}[u] \cup \{k^*\}$ \EndFor
+    \EndFor
+    \State \Return $c$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+\end{singlespace}
+
+\textbf{Complejidad, Tiempos Medidos y Limitaciones:} Construir $G$ evalúa $\binom{|V|}{2}$ pares en $O(|V|^2)$. Welsh-Powell ordena $V$ en $O(|V| \log |V|)$ y recorre candidatos en $O(|V|^2)$; DSatur ejecuta $|V|$ selecciones en $O(|V|)$ y actualiza vecinos en $O(|E|)$, resultando ambos en \textbf{tiempo $O(|V|^2)$} y \textbf{espacio $O(|V| + |E|)$} (Cormen et al., 2022). Aunque determinar $\chi(G)$ en general es NP-Completo (Karp, 1972; Garey et al., 1976), las pruebas empíricas ejecutadas sobre nuestro prototipo registran un tiempo de construcción de $0{,}20\text{ ms}$ y de coloreado con Welsh-Powell de $0{,}10\text{ ms}$ para el dataset ESPOCH ($|V|=6, |E|=8$), y de $69{,}65\text{ ms}$ (construcción) y $8{,}67\text{ ms}$ (coloreado) para una instancia sintética de facultad completa ($|V|=200, |E|=4\,080$). Como limitaciones reconocidas: (1) la Definición 2.1 asume un único paralelo por nivel $pao(v)$ (para extenderla a niveles con múltiples paralelos como \texttt{SW-3A} y \texttt{SW-3B}, basta sustituir $pao(v)$ por el par $(pao(v), paralelo(v))$); y (2) cada curso se modela como bloque indivisible sin fraccionamiento en múltiples sesiones semanales ni validación de aforo.
+
+% =============================================================================
+% 7. PLAN DE TRABAJO, HERRAMIENTAS Y GESTIÓN DE RIESGOS
+% =============================================================================
+\section{Metodología, Plan de Trabajo y Gestión de Riesgos}
+
+El equipo aplica Scrum ligero gestionado en GitHub con ramas por rol (\texttt{feature/*}), Pull Requests y pruebas en \texttt{/tests} (Tabla \ref{tab:cronograma}) junto con la matriz de riesgos (Tabla \ref{tab:riesgos}).
+\textbf{Declaración de uso de IA en Metodología (Secciones 9.4 y 11 del Instructivo):} Durante esta Fase 3 se emplearon \textbf{Antigravity (Gemini)} y \textbf{ChatGPT} como asistencia para maquetación en \LaTeX{}, diagramación TikZ y configuración de pruebas base, y \textbf{Claude (Anthropic)} para la auditoría y revisión crítica del documento y del avance del repositorio frente a la rúbrica, verificando manualmente el equipo cada demostración, traza matemática y prueba unitaria.
+
+\begin{singlespace}
+\begin{table}[H]
+\centering
+\caption{Cronograma interno de actividades (Fases 3 a 6) y responsables del Grupo 3}
+\label{tab:cronograma}
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\textwidth}{|L{2.4cm}|Y|L{3.3cm}|L{3.4cm}|}
+\hline
+\rowcolor{tableheader}
+\textbf{Fechas / Fase} & \textbf{Actividad y Entregable Técnico} & \textbf{Hito Verificable} & \textbf{Responsable por Rol} \\ \hline
+02--08 nov. 2026 (Fase 3) & Requisitos, modelo formal preliminar, prototipo Welsh-Powell y estructura inicial en GitHub. & Entrega Investigación Formativa + 5 tests base pasando. & Fredy Cárdenas (Líder/PO) y Danixa Rodas (QA) \\ \hline
+09--15 nov. 2026 (Rumbo Fase 4) & Ampliación del modelo formal al 60\%, cálculo del clique máximo $\omega(G)$ (Bron-Kerbosch) y datasets. & Módulo \texttt{graph.py} completo y PR integrado en GitHub. & Giovanni Gavilanes (Matemático / Modelador Formal) \\ \hline
+16--22 nov. 2026 (Fase 4: Sprint Review) & Implementación desde cero de \texttt{DSaturColoring} y demo funcional del núcleo ($\ge 50\%$ implementado). & Formalización al 60\% + Demo del núcleo ($\ge 50\%$) en Sprint Review. & Joseph Cuñas (Desarrollador de Algoritmos) \\ \hline
+23--29 nov. 2026 (Rumbo Fase 5) & Desarrollo de API FastAPI, carga de archivos CSV/JSON y visualización SVG del grafo coloreado y agenda. & Interfaz web funcional integrada con el núcleo algorítmico. & Geomayra Vilca (Desarrollador Full Stack / UI) \\ \hline
+30 nov.--06 dic. 2026 (Fases 5 y 6) & Suite de pruebas ($\ge 70\%$ cobertura), casos límite ($K_n, C_5$), CI/CD, Informe Final y Defensa Oral. & Informe Final PDF (mín. 25 págs.) + Demo en vivo. & Danixa Rodas (QA) y William Tigasi (Documentador / DevOps) \\ \hline
+\end{tabularx}
+\end{table}
+
+\vspace{0.15cm}
+
+\begin{table}[H]
+\centering
+\caption{Matriz de gestión de riesgos técnicos y organizativos del proyecto}
+\label{tab:riesgos}
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabularx}{\textwidth}{|c|L{3.6cm}|c|c|Y|}
+\hline
+\rowcolor{tableheader}
+\textbf{ID} & \textbf{Riesgo Identificado} & \textbf{Prob.} & \textbf{Impacto} & \textbf{Estrategia de Mitigación} \\ \hline
+R1 & Diferencia entre el número de colores heurístico $k$ y el óptimo $\chi(G)$. & Media & Medio & Ejecutar en paralelo Welsh-Powell y DSatur, seleccionando el menor $k$ y contrastándolo con la cota inferior $\omega(G)$. \\ \hline
+R2 & Participación desigual en el historial de commits de GitHub. & Media & Alto & Uso obligatorio de ramas individuales por rol (\texttt{feature/*}), Pull Requests semanales y control de commits por el Líder y DevOps. \\ \hline
+R3 & Datos de entrada CSV/JSON incompletos o con formato inválido en la demo. & Media & Alto & Validación estricta de entradas en \texttt{loader.py} y mantenimiento de datasets canónicos verificados en la carpeta \texttt{/data}. \\ \hline
+\end{tabularx}
+\end{table}
+\end{singlespace}
+
+\FloatBarrier
+
+% =============================================================================
+% 8. REFERENCIAS BIBLIOGRÁFICAS (APA 7.ª EDICIÓN)
+% =============================================================================
+\section{Referencias Bibliográficas}
+
+\begin{singlespace}
+\scriptsize
+\begin{itemize}
+    \setlength{\itemsep}{2pt}
+    \item[] Bondy, J. A., \& Murty, U. S. R. (2008). \textit{Graph theory}. Springer. \url{https://doi.org/10.1007/978-1-84628-970-5}
+    \item[] Brélaz, D. (1979). New methods to color the vertices of a graph. \textit{Communications of the ACM}, 22(4), 251--256. \url{https://doi.org/10.1145/359094.359101}
+    \item[] Burke, E. K., \& Petrovic, S. (2002). Recent research directions in automated timetabling. \textit{European Journal of Operational Research}, 140(2), 266--280. \url{https://doi.org/10.1016/S0377-2217(02)00069-3}
+    \item[] Carter, M. W., Laporte, G., \& Lee, S. Y. (1996). Examination timetabling: Algorithmic strategies and applications. \textit{Journal of the Operational Research Society}, 47(3), 373--383. \url{https://doi.org/10.1057/jors.1996.37}
+    \item[] Cormen, T. H., Leiserson, C. E., Rivest, R. L., \& Stein, C. (2022). \textit{Introduction to algorithms} (4th ed.). MIT Press.
+    \item[] Diestel, R. (2017). \textit{Graph theory} (5th ed.). Springer. \url{https://doi.org/10.1007/978-3-662-53622-3}
+    \item[] Garey, M. R., Johnson, D. S., \& Stockmeyer, L. (1976). Some simplified NP-complete graph problems. \textit{Theoretical Computer Science}, 1(3), 237--267. \url{https://doi.org/10.1016/0304-3975(76)90059-1}
+    \item[] Jensen, T. R., \& Toft, B. (1995). \textit{Graph coloring problems}. Wiley-Interscience.
+    \item[] Karp, R. M. (1972). Reducibility among combinatorial problems. En \textit{Complexity of computer computations} (pp. 85--103). Plenum Press.
+    \item[] Lewis, R. (2008). A survey of metaheuristic-based techniques for university timetabling problems. \textit{OR Spectrum}, 30, 167--190. \url{https://doi.org/10.1007/s00291-007-0097-0}
+    \item[] Lewis, R. (2021). \textit{A guide to graph colouring: Algorithms and applications} (2nd ed.). Springer. \url{https://doi.org/10.1007/978-3-030-81054-2}
+    \item[] Pinedo, M. L. (2016). \textit{Scheduling: Theory, algorithms, and systems} (5th ed.). Springer. \url{https://doi.org/10.1007/978-3-319-26580-3}
+    \item[] Rosen, K. H. (2019). \textit{Discrete mathematics and its applications} (8th ed.). McGraw-Hill Education.
+    \item[] Schaerf, A. (1999). A survey of automated timetabling. \textit{Artificial Intelligence Review}, 13, 87--127. \url{https://doi.org/10.1023/A:1006576209967}
+    \item[] Welsh, D. J. A., \& Powell, M. B. (1967). An upper bound for the chromatic number of a graph and its application to timetabling problems. \textit{The Computer Journal}, 10(1), 85--86. \url{https://doi.org/10.1093/comjnl/10.1.85}
+    \item[] West, D. B. (2001). \textit{Introduction to graph theory} (2nd ed.). Prentice Hall.
+\end{itemize}
+\end{singlespace}
+
+% =============================================================================
+% ANEXO C: DECLARACIÓN DE USO DE HERRAMIENTAS DE IA (SECCIÓN 11 DEL INSTRUCTIVO)
+% =============================================================================
+\newpage
+\section*{Anexo C. Declaración de uso de herramientas de IA}
+
+En cumplimiento de la Sección 9.4 y Sección 11 (numeral 10) del Instructivo de la asignatura, el Grupo 3 declara el uso de herramientas de Inteligencia Artificial Generativa durante la Fase 3 (Investigación Formativa), ratificando que el grupo ha verificado las fuentes académicas, la formalización matemático-discreta y el prototipo de software:
+
+\begin{singlespace}
+\scriptsize
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{|L{2.7cm}|L{3.2cm}|Y|Y|}
+\hline
+\rowcolor{tableheader}
+\textbf{Herramienta} & \textbf{Sección o archivo donde se usó} & \textbf{Propósito} & \textbf{Cómo se verificó el resultado} \\ \hline
+Antigravity (Gemini) / ChatGPT & Maquetación en \LaTeX{} (\texttt{main.tex}), diagramas TikZ y estructura base en Git & Asistencia en la estructuración del documento, formato de tablas, diagramas ilustrativos y configuración inicial de pruebas unitarias. & Revisión manual de cada definición y demostración, comprobación a mano de la matriz $A_G$ de 6 asignaturas y ejecución de las pruebas en \texttt{/tests}. \\ \hline
+Claude (Anthropic) & Revisión integral de \texttt{main.tex}, \texttt{README.md} y módulos en \texttt{src/} & Auditoría y revisión crítica del documento de Investigación Formativa y del avance del proyecto contra el instructivo y la rúbrica de evaluación. & Contraste punto por punto de las observaciones con la rúbrica PAO 3, ajuste de consistencia de notación ($d_{\text{sat}}$) y validación con \texttt{unittest}. \\ \hline
+\end{tabularx}
+\end{table}
+
+\vspace{0.3cm}
+\footnotesize
+\noindent Declaramos que la información anterior es verídica y que todos los integrantes comprendemos y podemos explicar el contenido entregado.\\[0.8cm]
+
+\begin{tabularx}{\textwidth}{YY}
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ & \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+\textbf{Fredy Jamphier Cárdenas Peñafiel} & \textbf{Giovanni Isarel Gavilanes Gavilanes} \\
+\textit{Líder / Product Owner} & \textit{Matemático / Modelador Formal} \\[0.6cm]
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ & \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+\textbf{Danixa Juleydi Rodas Riofrío} & \textbf{Joseph Isaías Cuñas Guilcapi} \\
+\textit{QA Engineer / Verificador} & \textit{Desarrollador de Algoritmos} \\[0.6cm]
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ & \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+\textbf{William Mauricio Tigasi Toaquiza} & \textbf{Geomayra Alexandra Vilca Vilca} \\
+\textit{Documentador / DevOps} & \textit{Desarrollador Full Stack / UI} \\
+\end{tabularx}
+\end{singlespace}
+
+\end{document}

@@ -1,0 +1,7 @@
+id,name,professor,semester,room,student_groups
+v1,Matemáticas Discretas,Mg. Miriam Ávila,PAO 3,Aula 301,SW-3A
+v2,Estructura de Datos,Ing. Carlos Pérez,PAO 3,Lab Cómputo 1,SW-3A
+v3,Programación Orientada a Objetos,Ing. Carlos Pérez,PAO 2,Lab Cómputo 1,SW-2A
+v4,Bases de Datos I,Ing. Elena Torres,PAO 3,Lab Cómputo 2,SW-3A
+v5,Lógica de Programación,Mg. Miriam Ávila,PAO 1,Aula 201,SW-1A
+v6,Estadística Aplicada,Ing. Elena Torres,PAO 2,Aula 301,SW-2A

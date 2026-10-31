@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "planificador-horarios-grafos"
+version = "0.2.0"
+description = "Planificador de Horarios y Asignación de Recursos sin Conflictos mediante Coloración de Grafos (ESPOCH)"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-v"
